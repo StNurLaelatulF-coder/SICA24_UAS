@@ -1,19 +1,25 @@
-<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-<ul class="navbar-nav">
-    <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#">
-            <i class="fas fa-bars"></i>
-        </a>
-    </li>
-</ul>
+    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+        <i class="fa fa-bars"></i>
+    </button>
 
-<ul class="navbar-nav ml-auto">
-    <li class="nav-item">
-        <span class="nav-link">
-            Selamat Datang
-        </span>
-    </li>
-</ul>
+    <ul class="navbar-nav ml-auto">
+
+        <li class="nav-item">
+            <span class="nav-link text-gray-600">
+                Selamat Datang,
+                <?= $this->session->userdata('username'); ?>
+            </span>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="<?= site_url('auth/logout') ?>">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </a>
+        </li>
+
+    </ul>
 
 </nav>

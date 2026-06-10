@@ -1,33 +1,19 @@
-<?php $this->load->view('templates/header'); ?>
-<?php $this->load->view('templates/sidebar'); ?>
-
-<div class="content-wrapper">
-
-<section class="content-header">
-<div class="container-fluid">
-<h1>Dashboard</h1>
-</div>
-</section>
-
-<section class="content">
 <div class="container-fluid">
 
-<div class="card">
-<div class="card-body">
+    <h1 class="h3 mb-4 text-gray-800">
+        Dashboard
+    </h1>
 
-<h3>Selamat Datang di SI CA 24</h3>
+    <div class="card shadow mb-4">
+        <div class="card-body">
 
-<hr>
+            <h3>Selamat Datang di SI CA 24</h3>
 
-<p><b>Username:</b> <?= $username; ?></p>
-<p><b>Role:</b> <?= $role; ?></p>
+            <hr>
+
+            <p>Sistem Informasi Customer & Sales Order</p>
+
+        </div>
+    </div>
 
 </div>
-</div>
-
-</div>
-</section>
-
-</div>
-
-<?php $this->load->view('templates/footer'); ?>

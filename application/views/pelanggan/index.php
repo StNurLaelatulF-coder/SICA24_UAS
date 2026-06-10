@@ -36,7 +36,6 @@
 </thead>
 
 <tbody>
-
 <?php $no=1; foreach($pelanggan as $p): ?>
 
 <tr>
@@ -46,20 +45,21 @@
 <td><?= $p->telepon; ?></td>
 
 <td>
-<a href="<?= site_url('pelanggan/edit/'.$p->id_pelanggan); ?>" class="btn btn-warning btn-sm">
-    Edit
+<a href="<?= site_url('pelanggan/edit/'.$p->id_pelanggan); ?>" 
+   class="btn btn-warning btn-sm">
+   Edit
 </a>
 
-<a href="<?= site_url('pelanggan/hapus/'.$p->id_pelanggan); ?>"
-   onclick="return confirm('Yakin ingin menghapus?')"
-   class="btn btn-danger btn-sm">
-    Hapus
+<a href="<?= site_url('pelanggan/hapus/'.$p->id_pelanggan); ?>" 
+   class="btn btn-danger btn-sm"
+   onclick="return confirm('Yakin ingin hapus?')">
+   Hapus
 </a>
+</td>
 
 </tr>
 
 <?php endforeach; ?>
-
 </tbody>
 
 </table>
