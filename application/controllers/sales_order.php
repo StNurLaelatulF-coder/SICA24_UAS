@@ -7,19 +7,24 @@ class Sales_order extends CI_Controller {
     {
         parent::__construct();
 
-        if (!$this->session->userdata('login')) {
+        if(!$this->session->userdata('login'))
+        {
             redirect('auth');
         }
 
-        $this->load->model('Sales_order_model');
+        $this->load->model('sales_order_model');
+
+        $role = $this->session->userdata('role');
+
+        if($role != 'admin' && $role != 'sales')
+        {
+        redirect('dashboard');
+}
     }
 
-    // =========================
-    // LIST DATA
-    // =========================
     public function index()
     {
-        $data['orders'] = $this->Sales_order_model->get_all();
+        $data['order'] = $this->sales_order_model->get_all();
 
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
@@ -28,82 +33,65 @@ class Sales_order extends CI_Controller {
         $this->load->view('templates/footer');
     }
 
-    // =========================
-    // TAMBAH FORM
-    // =========================
     public function tambah()
-    {
-        $data['pelanggan'] = $this->db->get('pelanggan')->result();
+{
+    $data['pelanggan'] = $this->db->get('pelanggan')->result();
+    $data['sales']     = $this->db->get('sales')->result();
 
-        $this->load->view('templates/header');
-        $this->load->view('templates/sidebar');
-        $this->load->view('templates/topbar');
-        $this->load->view('sales_order/tambah', $data);
-        $this->load->view('templates/footer');
-    }
+    $this->load->view('templates/header');
+    $this->load->view('templates/sidebar');
+    $this->load->view('templates/topbar');
+    $this->load->view('sales_order/tambah',$data);
+    $this->load->view('templates/footer');
+}
 
-    // =========================
-    // SIMPAN ORDER
-    // =========================
-    public function simpan()
-    {
-        $data = [
-            'id_pelanggan' => $this->input->post('id_pelanggan'),
-            'id_sales'     => $this->session->userdata('id_user'),
-            'tanggal'      => $this->input->post('tanggal'),
-            'total'        => 0, // nanti dihitung dari detail (sementara 0)
-            'status'       => 'draft'
-        ];
+public function simpan()
+{
+    $data = [
+        'id_pelanggan' => $this->input->post('id_pelanggan'),
+        'id_sales'     => $this->input->post('id_sales'),
+        'tanggal'      => $this->input->post('tanggal'),
+        'total'        => $this->input->post('total'),
+        'status'       => $this->input->post('status')
+    ];
 
-        $this->Sales_order_model->insert($data);
+    $this->sales_order_model->insert($data);
 
-        redirect('sales_order');
-    }
+    redirect('sales_order');
+}
 
-    // =========================
-    // EDIT ORDER
-    // =========================
-    public function edit($id)
-    {
-        $data['order'] = $this->Sales_order_model->get_by_id($id);
-        $data['pelanggan'] = $this->db->get('pelanggan')->result();
+public function edit($id)
+{
+    $data['order'] = $this->sales_order_model->get_by_id($id);
+    $data['pelanggan'] = $this->db->get('pelanggan')->result();
+    $data['sales'] = $this->db->get('sales')->result();
 
-        $this->load->view('templates/header');
-        $this->load->view('templates/sidebar');
-        $this->load->view('templates/topbar');
-        $this->load->view('sales_order/edit', $data);
-        $this->load->view('templates/footer');
+    $this->load->view('templates/header');
+    $this->load->view('templates/sidebar');
+    $this->load->view('templates/topbar');
+    $this->load->view('sales_order/edit',$data);
+    $this->load->view('templates/footer');
+}
 
-        $data['produk'] = $this->db->get('produk')->result();
+public function update($id)
+{
+    $data = [
+        'id_pelanggan' => $this->input->post('id_pelanggan'),
+        'id_sales'     => $this->input->post('id_sales'),
+        'tanggal'      => $this->input->post('tanggal'),
+        'total'        => $this->input->post('total'),
+        'status'       => $this->input->post('status')
+    ];
 
-        $this->load->model('Detail_order_model');
-        $data['detail'] = $this->Detail_order_model->get_by_order($id);
-    }
+    $this->sales_order_model->update($id,$data);
 
-    // =========================
-    // UPDATE ORDER
-    // =========================
-    public function update($id)
-    {
-        $data = [
-            'id_pelanggan' => $this->input->post('id_pelanggan'),
-            'tanggal'      => $this->input->post('tanggal'),
-            'total'        => $this->input->post('total'),
-            'status'       => $this->input->post('status')
-        ];
+    redirect('sales_order');
+}
 
-        $this->Sales_order_model->update($id, $data);
+public function hapus($id)
+{
+    $this->sales_order_model->delete($id);
 
-        redirect('sales_order');
-    }
-
-    // =========================
-    // HAPUS ORDER
-    // =========================
-    public function hapus($id)
-    {
-        $this->Sales_order_model->delete($id);
-
-        redirect('sales_order');
-    }
+    redirect('sales_order');
+}
 }

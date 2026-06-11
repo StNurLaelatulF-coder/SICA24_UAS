@@ -1,82 +1,257 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
-
     <meta charset="utf-8">
-    <title>Login - Sistem Sales Order</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Login - Sistem Sales Order PT Maju Jaya</title>
 
     <link href="<?= base_url('assets/vendor/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet">
-    <link href="<?= base_url('assets/css/sb-admin-2.min.css'); ?>" rel="stylesheet">
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        body{
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:linear-gradient(135deg,#dbeafe,#bfdbfe);
+            padding:20px;
+        }
+
+        .login-container{
+            width:100%;
+            max-width:1400px;
+            min-height:750px;
+            background:#fff;
+            border-radius:30px;
+            overflow:hidden;
+            display:flex;
+            box-shadow:0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        /* PANEL KIRI */
+        .left-panel{
+            width:45%;
+            background:linear-gradient(135deg,#0f4c81,#1e88e5);
+            color:white;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            text-align:center;
+            padding:60px;
+        }
+
+        .left-panel img{
+            width:250px;
+            margin-bottom:30px;
+        }
+
+        .left-panel h1{
+            font-size:52px;
+            margin-bottom:10px;
+        }
+
+        .left-panel h4{
+            margin-bottom:25px;
+            font-weight:400;
+        }
+
+        .left-panel p{
+            font-size:18px;
+            line-height:1.8;
+        }
+
+        /* PANEL KANAN */
+        .right-panel{
+            width:55%;
+            background:#f8fafc;
+            padding:80px;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+        }
+
+        .welcome-title{
+            font-size:48px;
+            font-weight:bold;
+            color:#1e88e5;
+            margin-bottom:10px;
+        }
+
+        .welcome-subtitle{
+            color:#777;
+            font-size:18px;
+            margin-bottom:40px;
+        }
+
+        .form-group{
+            margin-bottom:20px;
+        }
+
+        .form-control{
+            width:100%;
+            height:60px;
+            border:none;
+            border-radius:15px;
+            padding:0 20px;
+            background:#e2e8f0;
+            font-size:16px;
+            outline:none;
+        }
+
+        .btn-login{
+            width:100%;
+            height:60px;
+            border:none;
+            border-radius:15px;
+            background:#1e88e5;
+            color:white;
+            font-size:18px;
+            font-weight:bold;
+            cursor:pointer;
+            transition:.3s;
+        }
+
+        .btn-login:hover{
+            background:#1565c0;
+        }
+
+        .alert{
+            padding:15px;
+            border-radius:10px;
+            margin-bottom:20px;
+        }
+
+        .alert-danger{
+            background:#fee2e2;
+            color:#b91c1c;
+        }
+
+        .icon-box{
+            width:120px;
+            height:120px;
+            border-radius:50%;
+            background:rgba(255,255,255,.15);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            margin-bottom:30px;
+        }
+
+        .icon-box i{
+            font-size:60px;
+        }
+
+        @media(max-width:992px){
+
+            .login-container{
+                flex-direction:column;
+            }
+
+            .left-panel,
+            .right-panel{
+                width:100%;
+            }
+
+            .right-panel{
+                padding:40px;
+            }
+
+            .welcome-title{
+                font-size:35px;
+            }
+
+            .left-panel h1{
+                font-size:40px;
+            }
+        }
+    </style>
 
 </head>
 
-<body class="bg-gradient-primary">
+<body>
 
-<div class="container">
+<div class="login-container">
 
-    <div class="row justify-content-center">
+    <!-- KIRI -->
+    <div class="left-panel">
 
-        <div class="col-xl-5 col-lg-6 col-md-8">
+        <!-- OPSI 1 PAKAI GAMBAR -->
+        <!--
+        <img src="<?= base_url('assets/img/electronics.png') ?>" alt="Elektronik">
+        -->
 
-            <div class="card o-hidden border-0 shadow-lg my-5">
+        <!-- OPSI 2 PAKAI ICON -->
+        <div class="icon-box">
+            <i class="fas fa-laptop"></i>
+        </div>
 
-                <div class="card-body p-0">
+        <h1>PT MAJU JAYA</h1>
 
-                    <div class="p-5">
+        <h4>Sistem Sales Order</h4>
 
-                        <div class="text-center">
-                            <h1 class="h4 text-gray-900 mb-4">
-                                Login Sistem Sales Order
-                            </h1>
-                        </div>
+        <p>
+            Sistem Sales Order berbasis web untuk membantu tim sales
+            dalam mencatat pesanan pelanggan, mengurangi kehilangan data,
+            mencegah duplikasi transaksi, dan mempercepat proses distribusi
+            berbagai produk elektronik.
+        </p>
 
-                        <?php if($this->session->flashdata('error')) : ?>
-                            <div class="alert alert-danger">
-                                <?= $this->session->flashdata('error'); ?>
-                            </div>
-                        <?php endif; ?>
+    </div>
 
-                        <form method="post" action="<?= site_url('auth/proses_login'); ?>">
+    <!-- KANAN -->
+    <div class="right-panel">
 
-                            <div class="form-group">
-                                <input type="text"
-                                       name="username"
-                                       class="form-control form-control-user"
-                                       placeholder="Username"
-                                       required>
-                            </div>
+        <h2 class="welcome-title">
+            Selamat Datang 👋
+        </h2>
 
-                            <div class="form-group">
-                                <input type="password"
-                                       name="password"
-                                       class="form-control form-control-user"
-                                       placeholder="Password"
-                                       required>
-                            </div>
+        <p class="welcome-subtitle">
+            Login untuk mengakses Sistem Sales Order PT Maju Jaya
+        </p>
 
-                            <button type="submit"
-                                    class="btn btn-primary btn-user btn-block">
-                                Login
-                            </button>
+        <?php if($this->session->flashdata('error')) : ?>
+            <div class="alert alert-danger">
+                <?= $this->session->flashdata('error'); ?>
+            </div>
+        <?php endif; ?>
 
-                        </form>
+        <form method="post" action="<?= site_url('auth/proses_login'); ?>">
 
-                    </div>
-
-                </div>
-
+            <div class="form-group">
+                <input type="text"
+                       name="username"
+                       class="form-control"
+                       placeholder="Masukkan Username"
+                       required>
             </div>
 
-        </div>
+            <div class="form-group">
+                <input type="password"
+                       name="password"
+                       class="form-control"
+                       placeholder="Masukkan Password"
+                       required>
+            </div>
+
+            <button type="submit" class="btn-login">
+                Login
+            </button>
+
+        </form>
 
     </div>
 
 </div>
-
-<script src="<?= base_url('assets/vendor/jquery/jquery.min.js'); ?>"></script>
-<script src="<?= base_url('assets/vendor/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
-<script src="<?= base_url('assets/js/sb-admin-2.min.js'); ?>"></script>
 
 </body>
 </html>

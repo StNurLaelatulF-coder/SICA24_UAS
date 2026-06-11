@@ -1,4 +1,6 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 class Produk_model extends CI_Model {
 
     public function get_all()
@@ -6,32 +8,30 @@ class Produk_model extends CI_Model {
         return $this->db->get('produk')->result();
     }
 
-    public function tampil()
-    {
-        return $this->db->get('produk')->result();
-    }
-
     public function insert($data)
     {
-        $this->db->insert('produk', $data);
+        return $this->db->insert('produk',$data);
     }
 
-    public function delete($id_produk)
+    public function get_by_id($id)
     {
-        $this->db->where('id_produk', $id_produk);
-        $this->db->delete('produk');
+        return $this->db
+            ->where('id_produk',$id)
+            ->get('produk')
+            ->row();
     }
 
-    public function get_by_id($id_produk)
+    public function update($id,$data)
     {
-        $this->db->where('id_produk', $id_produk);
-        return $this->db->get('produk')->row();
+        return $this->db
+            ->where('id_produk',$id)
+            ->update('produk',$data);
     }
 
-    public function update($id_produk, $data)
+    public function delete($id)
     {
-        $this->db->where('id_produk', $id_produk);
-        $this->db->update('produk', $data);
+        return $this->db
+            ->where('id_produk',$id)
+            ->delete('produk');
     }
-
 }

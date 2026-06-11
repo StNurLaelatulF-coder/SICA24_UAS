@@ -7,19 +7,27 @@ class Detail_order extends CI_Controller {
     {
         parent::__construct();
 
-        if (!$this->session->userdata('login')) {
+        if(!$this->session->userdata('login'))
+        {
             redirect('auth');
         }
 
-        $this->load->model('Detail_order_model');
+        $this->load->model('detail_order_model');
+
+        $role = $this->session->userdata('role');
+
+        if($role != 'admin' && $role != 'sales')
+        {
+            redirect('dashboard');
+        }
     }
 
     // =========================
-    // INDEX (LIST PILIH ORDER)
+    // LIST DETAIL ORDER
     // =========================
     public function index()
     {
-        $data['orders'] = $this->db->get('sales_order')->result();
+        $data['detail'] = $this->detail_order_model->get_all();
 
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
@@ -29,60 +37,106 @@ class Detail_order extends CI_Controller {
     }
 
     // =========================
-    // DETAIL PER ORDER
+    // FORM TAMBAH
     // =========================
-    public function lihat($id_order)
+    public function tambah()
     {
-        $data['order'] = $this->db->get_where('sales_order', [
-            'id_order' => $id_order
-        ])->row();
-
+        $data['order']  = $this->db->get('sales_order')->result();
         $data['produk'] = $this->db->get('produk')->result();
-
-        $this->load->model('Detail_order_model');
-        $data['detail'] = $this->Detail_order_model->get_by_order($id_order);
 
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');
-        $this->load->view('detail_order/lihat', $data);
+        $this->load->view('detail_order/tambah', $data);
         $this->load->view('templates/footer');
     }
 
     // =========================
-    // SIMPAN DETAIL
+    // SIMPAN DETAIL ORDER
     // =========================
     public function simpan()
     {
-        $id_produk = $this->input->post('id_produk');
-        $qty       = $this->input->post('qty');
-
-        $produk = $this->db->get_where('produk', [
-            'id_produk' => $id_produk
-        ])->row();
-
-        $subtotal = $produk->harga * $qty;
-
         $data = [
             'id_order'  => $this->input->post('id_order'),
-            'id_produk' => $id_produk,
-            'qty'       => $qty,
-            'subtotal'  => $subtotal
+            'id_produk' => $this->input->post('id_produk'),
+            'qty'       => $this->input->post('qty')
         ];
 
-        $this->Detail_order_model->insert($data);
+        $this->detail_order_model->insert($data);
 
-        redirect('detail_order/lihat/'.$data['id_order']);
+        $this->update_total_order($data['id_order']);
+
+        redirect('detail_order');
     }
 
     // =========================
-    // HAPUS DETAIL
+    // FORM EDIT
     // =========================
-    public function hapus($id_detail, $id_order)
+    public function edit($id)
     {
-        $this->db->where('id_detail', $id_detail);
-        $this->db->delete('detail_order');
+        $data['detail'] = $this->detail_order_model->get_by_id($id);
+        $data['order']  = $this->db->get('sales_order')->result();
+        $data['produk'] = $this->db->get('produk')->result();
 
-        redirect('detail_order/lihat/'.$id_order);
+        $this->load->view('templates/header');
+        $this->load->view('templates/sidebar');
+        $this->load->view('templates/topbar');
+        $this->load->view('detail_order/edit', $data);
+        $this->load->view('templates/footer');
+    }
+
+    // =========================
+    // UPDATE DETAIL ORDER
+    // =========================
+    public function update($id)
+    {
+        $data = [
+            'id_order'  => $this->input->post('id_order'),
+            'id_produk' => $this->input->post('id_produk'),
+            'qty'       => $this->input->post('qty')
+        ];
+
+        $this->detail_order_model->update($id, $data);
+
+        $this->update_total_order($data['id_order']);
+
+        redirect('detail_order');
+    }
+
+    // =========================
+    // HAPUS DETAIL ORDER
+    // =========================
+    public function hapus($id)
+    {
+        // ambil data sebelum delete
+        $detail = $this->detail_order_model->get_by_id($id);
+        $id_order = $detail->id_order;
+
+        $this->detail_order_model->delete($id);
+
+        $this->update_total_order($id_order);
+
+        redirect('detail_order');
+    }
+
+    // =========================
+    // HITUNG TOTAL SALES ORDER
+    // =========================
+    public function update_total_order($id_order)
+    {
+        $this->db->select_sum('subtotal');
+        $this->db->from('detail_order');
+        $this->db->where('id_order', $id_order);
+        $total = $this->db->get()->row()->subtotal;
+
+        // kalau null, jadi 0
+        if ($total == null) {
+            $total = 0;
+        }
+
+        $this->db->where('id_order', $id_order);
+        $this->db->update('sales_order', [
+            'total' => $total
+        ]);
     }
 }

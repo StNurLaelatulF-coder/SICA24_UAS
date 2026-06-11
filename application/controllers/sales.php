@@ -4,16 +4,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Sales extends CI_Controller {
 
     public function __construct()
+{
+    parent::__construct();
+
+    if(!$this->session->userdata('login'))
     {
-        parent::__construct();
-
-        if(!$this->session->userdata('login'))
-        {
-            redirect('auth');
-        }
-
-        $this->load->model('sales_model');
+        redirect('auth');
     }
+
+    if($this->session->userdata('role') != 'admin')
+    {
+        redirect('dashboard');
+    }
+
+    $this->load->model('sales_model');
+}
 
     public function index()
     {

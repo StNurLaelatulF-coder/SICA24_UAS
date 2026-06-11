@@ -4,13 +4,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Produk extends CI_Controller {
 
     public function __construct()
+{
+    parent::__construct();
+
+    if(!$this->session->userdata('login'))
     {
-        parent::__construct();
-        $this->load->model('produk_model');
-        if (!$this->session->userdata('login')) {
-            redirect('login');
-        }
+        redirect('auth');
     }
+
+    if($this->session->userdata('role') != 'admin')
+    {
+        redirect('dashboard');
+    }
+
+    $this->load->model('produk_model');
+}
 
     public function index()
     {
@@ -19,65 +27,61 @@ class Produk extends CI_Controller {
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');
-        $this->load->view('produk/index', $data);
+        $this->load->view('produk/index',$data);
         $this->load->view('templates/footer');
     }
 
     public function tambah()
-    {
+{
+    $this->load->view('templates/header');
+    $this->load->view('templates/sidebar');
+    $this->load->view('templates/topbar');
+    $this->load->view('produk/tambah');
+    $this->load->view('templates/footer');
+}
 
-        $this->load->view('templates/header');
-        $this->load->view('templates/sidebar');
-        $this->load->view('templates/topbar');
-        $this->load->view('produk/tambah');
-        $this->load->view('templates/footer');
-    }
-
-    // ===============================
-    // SIMPAN
-    // ===============================
-    public function simpan()
-    {
-        $data = [
+public function simpan()
+{
+    $data = [
         'kode_produk' => $this->input->post('kode_produk'),
         'nama_produk' => $this->input->post('nama_produk'),
         'harga'       => $this->input->post('harga'),
         'stok'        => $this->input->post('stok')
     ];
-        $this->produk_model->insert($data);
 
-        redirect('produk');
-    }
+    $this->produk_model->insert($data);
 
-    public function hapus($id_produk)
-    {
-        $this->produk_model->delete($id_produk);
-        $this->session->set_flashdata('success', "Data Berhasil Dihapus");
-        redirect('produk');
-    }
+    redirect('produk');
+}
 
-    public function edit($id_produk)
-    {
-        $data['produk'] = $this->produk_model->get_by_id($id_produk);
+public function edit($id)
+{
+    $data['produk'] = $this->produk_model->get_by_id($id);
 
-        $this->load->view('templates/header');
-        $this->load->view('templates/sidebar');
-        $this->load->view('templates/topbar');
-        $this->load->view('produk/edit', $data);
-        $this->load->view('templates/footer');
-    }
+    $this->load->view('templates/header');
+    $this->load->view('templates/sidebar');
+    $this->load->view('templates/topbar');
+    $this->load->view('produk/edit', $data);
+    $this->load->view('templates/footer');
+}
 
-    public function update($id_produk)
+public function update($id)
 {
     $data = [
+        'kode_produk' => $this->input->post('kode_produk'),
         'nama_produk' => $this->input->post('nama_produk'),
         'harga'       => $this->input->post('harga'),
         'stok'        => $this->input->post('stok')
     ];
 
-    $this->produk_model->update($id_produk, $data);
+    $this->produk_model->update($id, $data);
 
-    $this->session->set_flashdata('success', 'Data berhasil diupdate');
+    redirect('produk');
+}
+
+public function hapus($id)
+{
+    $this->produk_model->delete($id);
 
     redirect('produk');
 }

@@ -8,25 +8,30 @@ class Pelanggan_model extends CI_Model {
         return $this->db->get('pelanggan')->result();
     }
 
-    public function get_by_id($id)
-    {
-        return $this->db->get_where('pelanggan', ['id_pelanggan' => $id])->row();
-    }
-
     public function insert($data)
     {
-        return $this->db->insert('pelanggan', $data);
+        return $this->db->insert('pelanggan',$data);
     }
 
-    public function update($id, $data)
+    public function get_by_id($id)
     {
-        return $this->db->where('id_pelanggan', $id)
-                        ->update('pelanggan', $data);
+        return $this->db
+            ->where('id_pelanggan',$id)
+            ->get('pelanggan')
+            ->row();
+    }
+
+    public function update($id,$data)
+    {
+        return $this->db
+            ->where('id_pelanggan',$id)
+            ->update('pelanggan',$data);
     }
 
     public function delete($id)
     {
-        return $this->db->where('id_pelanggan', $id)
-                        ->delete('pelanggan');
+        return $this->db
+            ->where('id_pelanggan',$id)
+            ->delete('pelanggan');
     }
 }

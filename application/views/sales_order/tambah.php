@@ -1,77 +1,81 @@
 <div class="container-fluid">
 
-<h2 class="h3 mb-4 text-gray-800">Tambah Sales Order</h2>
+<h1 class="h3 mb-4 text-gray-800">
+    Tambah Sales Order
+</h1>
+
+<div class="card shadow">
+<div class="card-body">
 
 <form method="post" action="<?= site_url('sales_order/simpan'); ?>">
 
 <div class="form-group">
-    <label>Pelanggan</label>
+<label>Pelanggan</label>
 
-    <select name="id_pelanggan" class="form-control" required>
-        <option value="">-- Pilih Pelanggan --</option>
+<select name="id_pelanggan" class="form-control" required>
 
-        <?php foreach ($pelanggan as $p) { ?>
-            <option value="<?= $p->id_pelanggan ?>">
-                <?= $p->nama_pelanggan ?>
-            </option>
-        <?php } ?>
-    </select>
+<option value="">-- Pilih Pelanggan --</option>
+
+<?php foreach($pelanggan as $p): ?>
+<option value="<?= $p->id_pelanggan; ?>">
+    <?= $p->nama_pelanggan; ?>
+</option>
+<?php endforeach; ?>
+
+</select>
 </div>
 
 <div class="form-group">
-    <label>Sales</label>
+<label>Sales</label>
 
-    <select name="id_sales" class="form-control" required>
-        <option value="">-- Pilih Sales --</option>
+<select name="id_sales" class="form-control" required>
 
-        <?php foreach ($sales as $s) { ?>
-            <option value="<?= $s->id_sales ?>">
-                <?= $s->nama_sales ?>
-            </option>
-        <?php } ?>
-    </select>
+<option value="">-- Pilih Sales --</option>
+
+<?php foreach($sales as $s): ?>
+<option value="<?= $s->id_sales; ?>">
+    <?= $s->nama_sales; ?>
+</option>
+<?php endforeach; ?>
+
+</select>
 </div>
 
-<hr>
+<div class="form-group">
+<label>Tanggal</label>
 
-<h5>Produk</h5>
+<input type="date"
+       name="tanggal"
+       class="form-control"
+       value="<?= date('Y-m-d'); ?>"
+       required>
+</div>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Produk</th>
-            <th>Qty</th>
-        </tr>
-    </thead>
+<div class="form-group">
+<label>Status</label>
 
-    <tbody>
-        <tr>
-            <td>
-                <select name="produk[]" class="form-control" required>
-                    <?php foreach($produk as $p): ?>
-                        <option value="<?= $p->kode_produk; ?>">
-                            <?= $p->nama_produk; ?> -
-                            Rp <?= number_format($p->harga,0,',','.'); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </td>
+<select name="status" class="form-control">
 
-            <td>
-                <input type="number" name="qty[]" class="form-control" min="1" required>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<option value="draft">Draft</option>
+<option value="dikirim">Dikirim</option>
+<option value="selesai">Selesai</option>
+<option value="dibatalkan">Dibatalkan</option>
 
-<button type="submit" class="btn btn-success">
-    Simpan Order
+</select>
+</div>
+
+<button type="submit" class="btn btn-primary">
+    Simpan
 </button>
 
-<a href="<?= site_url('sales_order'); ?>" class="btn btn-secondary">
-    Kembali
+<a href="<?= site_url('sales_order'); ?>"
+   class="btn btn-secondary">
+   Kembali
 </a>
 
 </form>
+
+</div>
+</div>
 
 </div>

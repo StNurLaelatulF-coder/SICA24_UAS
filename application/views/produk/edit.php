@@ -1,49 +1,62 @@
-<h2>Edit Produk</h2>
+<div class="container-fluid">
 
-<form method="post" action="<?= base_url('produk/update/'.$produk->id_produk) ?>">
+<h1 class="h3 mb-4 text-gray-800">
+    Edit Produk
+</h1>
 
-    <div class="form-group">
-        <label>Kode Produk</label>
-        <input type="text"
-               name="kode_produk"
-               value="<?= $produk->kode_produk ?>"
-               class="form-control"
-               readonly>
-    </div>
+<div class="card shadow">
+<div class="card-body">
 
-    <div class="form-group">
-        <label>Nama Produk</label>
-        <input type="text"
-               name="nama_produk"
-               value="<?= $produk->nama_produk ?>"
-               class="form-control"
-               required>
-    </div>
+<form method="post"
+      action="<?= site_url('produk/update/'.$produk->id_produk); ?>">
 
-    <div class="form-group">
-        <label>Harga</label>
-        <input type="number"
-               name="harga"
-               value="<?= $produk->harga ?>"
-               class="form-control"
-               required>
-    </div>
+<div class="form-group">
+<label>Kode Produk</label>
+<input type="text"
+       name="kode_produk"
+       class="form-control"
+       value="<?= $produk->kode_produk; ?>"
+       required>
+</div>
 
-    <div class="form-group">
-        <label>Stok</label>
-        <input type="number"
-               name="stok"
-               value="<?= $produk->stok ?>"
-               class="form-control"
-               required>
-    </div>
+<div class="form-group">
+<label>Nama Produk</label>
+<input type="text"
+       name="nama_produk"
+       class="form-control"
+       value="<?= $produk->nama_produk; ?>"
+       required>
+</div>
 
-    <button type="submit" class="btn btn-primary">
-        Update
-    </button>
+<div class="form-group">
+<label>Harga</label>
+<input type="number"
+       name="harga"
+       class="form-control"
+       value="<?= $produk->harga; ?>"
+       required>
+</div>
 
-    <a href="<?= base_url('produk') ?>" class="btn btn-secondary">
-        Kembali
-    </a>
+<div class="form-group">
+<label>Stok</label>
+<input type="number"
+       name="stok"
+       class="form-control"
+       value="<?= $produk->stok; ?>"
+       required>
+</div>
+
+<button type="submit" class="btn btn-primary">
+    Update
+</button>
+
+<a href="<?= site_url('produk'); ?>" class="btn btn-secondary">
+    Kembali
+</a>
 
 </form>
+
+</div>
+</div>
+
+</div>

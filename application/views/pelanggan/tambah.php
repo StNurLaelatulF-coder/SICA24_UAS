@@ -1,16 +1,48 @@
-<h2>Tambah Pelanggan</h2>
+<div class="container-fluid">
 
-<form method="post" action="<?php echo base_url('pelanggan/simpan')?>">
+<h1 class="h3 mb-4 text-gray-800">
+    Tambah Pelanggan
+</h1>
 
-Nama Pelanggan
-<input type="text" name="nama_pelanggan" required><br><br>
+<div class="card shadow">
+<div class="card-body">
 
-Alamat
-<textarea name="alamat"></textarea><br><br>
+<form method="post" action="<?= site_url('pelanggan/simpan'); ?>">
 
-Telepon
-<input type="text" name="telepon"><br><br>
+<div class="form-group">
+<label>Nama Pelanggan</label>
+<input type="text"
+       name="nama_pelanggan"
+       class="form-control"
+       required>
+</div>
 
-<button type="submit">Simpan</button>
+<div class="form-group">
+<label>Alamat</label>
+<textarea name="alamat"
+          class="form-control"></textarea>
+</div>
+
+<div class="form-group">
+<label>Telepon</label>
+<input type="text"
+       name="telepon"
+       class="form-control">
+</div>
+
+<button type="submit"
+        class="btn btn-primary">
+    Simpan
+</button>
+
+<a href="<?= site_url('pelanggan'); ?>"
+   class="btn btn-secondary">
+    Kembali
+</a>
 
 </form>
+
+</div>
+</div>
+
+</div>

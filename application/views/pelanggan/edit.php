@@ -1,19 +1,51 @@
-<h2>Edit Pelanggan</h2>
+<div class="container-fluid">
 
-<form method="post" action="<?php echo base_url('pelanggan/update/'.$pelanggan->id_pelanggan) ?>">
+<h1 class="h3 mb-4 text-gray-800">
+    Edit Pelanggan
+</h1>
 
-ID
-<input type="text" value="<?php echo $pelanggan->id_pelanggan ?>" readonly><br><br>
+<div class="card shadow">
+<div class="card-body">
 
-Nama Pelanggan
-<input type="text" name="nama_pelanggan" value="<?php echo $pelanggan->nama_pelanggan ?>" required><br><br>
+<form method="post"
+      action="<?= site_url('pelanggan/update/'.$pelanggan->id_pelanggan); ?>">
 
-Alamat
-<textarea name="alamat"><?php echo $pelanggan->alamat ?></textarea><br><br>
+<div class="form-group">
+<label>Nama Pelanggan</label>
+<input type="text"
+       name="nama_pelanggan"
+       class="form-control"
+       value="<?= $pelanggan->nama_pelanggan; ?>"
+       required>
+</div>
 
-Telepon
-<input type="text" name="telepon" value="<?php echo $pelanggan->telepon ?>"><br><br>
+<div class="form-group">
+<label>Alamat</label>
+<textarea name="alamat"
+          class="form-control"><?= $pelanggan->alamat; ?></textarea>
+</div>
 
-<button type="submit">Update</button>
+<div class="form-group">
+<label>Telepon</label>
+<input type="text"
+       name="telepon"
+       class="form-control"
+       value="<?= $pelanggan->telepon; ?>">
+</div>
+
+<button type="submit"
+        class="btn btn-primary">
+    Update
+</button>
+
+<a href="<?= site_url('pelanggan'); ?>"
+   class="btn btn-secondary">
+    Kembali
+</a>
 
 </form>
+
+</div>
+</div>
+
+</div>
