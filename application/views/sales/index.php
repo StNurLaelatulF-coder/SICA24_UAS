@@ -16,6 +16,7 @@
             <th>Nama Sales</th>
             <th>Telepon</th>
             <th>Email</th>
+            <th>Alamat</th>
             <th>Aksi</th>
         </tr>
     </thead>
@@ -29,6 +30,7 @@
         <td><?= $s->nama_sales; ?></td>
         <td><?= $s->telepon; ?></td>
         <td><?= $s->email; ?></td>
+        <td><?= $s->alamat; ?></td>
 
         <td>
             <a href="<?= site_url('sales/edit/'.$s->id_sales); ?>"

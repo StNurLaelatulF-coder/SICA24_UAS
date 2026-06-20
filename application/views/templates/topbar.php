@@ -5,8 +5,8 @@
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 shadow">
 
     <span>
-        Selamat Datang,
-        <?= $this->session->userdata('nama'); ?>
+        Selamat Datang
+        <?= $this->session->userdata('role'); ?>
     </span>
 
 </nav>

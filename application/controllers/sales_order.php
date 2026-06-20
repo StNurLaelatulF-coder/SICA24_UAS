@@ -52,7 +52,8 @@ public function simpan()
         'id_sales'     => $this->input->post('id_sales'),
         'tanggal'      => $this->input->post('tanggal'),
         'total'        => $this->input->post('total'),
-        'status'       => $this->input->post('status')
+        'status'       => $this->input->post('status'),
+        'stok_terpotong' => 0
     ];
 
     $this->sales_order_model->insert($data);
@@ -75,15 +76,66 @@ public function edit($id)
 
 public function update($id)
 {
+    $order_lama = $this->sales_order_model->get_by_id($id);
+
+    $status_lama = $order_lama->status;
+    $status_baru = $this->input->post('status');
+
     $data = [
         'id_pelanggan' => $this->input->post('id_pelanggan'),
         'id_sales'     => $this->input->post('id_sales'),
         'tanggal'      => $this->input->post('tanggal'),
         'total'        => $this->input->post('total'),
-        'status'       => $this->input->post('status')
+        'status'       => $status_baru
     ];
 
-    $this->sales_order_model->update($id,$data);
+    $this->sales_order_model->update($id, $data);
+    $order_baru = $this->sales_order_model->get_by_id($id);
+
+if (
+    ($status_baru == 'dikirim' || $status_baru == 'selesai')
+    && $order_baru->stok_terpotong == 0
+) {
+
+    $detail = $this->db
+        ->where('id_order', $id)
+        ->get('detail_order')
+        ->result();
+
+    foreach ($detail as $d) {
+
+        $this->db->set('stok', 'stok - '.$d->qty, FALSE);
+        $this->db->where('id_produk', $d->id_produk);
+        $this->db->update('produk');
+    }
+
+    $this->db->where('id_order', $id);
+    $this->db->update('sales_order', [
+        'stok_terpotong' => 1
+    ]);
+}
+if (
+    $status_baru == 'dibatalkan'
+    && $order_baru->stok_terpotong == 1
+) {
+
+    $detail = $this->db
+        ->where('id_order', $id)
+        ->get('detail_order')
+        ->result();
+
+    foreach ($detail as $d) {
+
+        $this->db->set('stok', 'stok + '.$d->qty, FALSE);
+        $this->db->where('id_produk', $d->id_produk);
+        $this->db->update('produk');
+    }
+
+    $this->db->where('id_order', $id);
+    $this->db->update('sales_order', [
+        'stok_terpotong' => 0
+    ]);
+}
 
     redirect('sales_order');
 }

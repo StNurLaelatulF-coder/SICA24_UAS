@@ -22,6 +22,25 @@
     </select>
 </div>
 
+<div class="form-group">
+    <label>Sales</label>
+
+    <select name="id_sales" class="form-control" required>
+
+        <?php foreach($sales as $s): ?>
+
+            <option value="<?= $s->id_sales; ?>"
+                <?= ($order->id_sales == $s->id_sales) ? 'selected' : ''; ?>>
+
+                <?= $s->nama_sales; ?>
+
+            </option>
+
+        <?php endforeach; ?>
+
+    </select>
+</div>
+
 <!-- TANGGAL -->
 <div class="form-group">
     <label>Tanggal</label>

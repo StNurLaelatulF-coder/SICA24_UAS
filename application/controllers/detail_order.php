@@ -40,16 +40,27 @@ class Detail_order extends CI_Controller {
     // FORM TAMBAH
     // =========================
     public function tambah()
-    {
-        $data['order']  = $this->db->get('sales_order')->result();
-        $data['produk'] = $this->db->get('produk')->result();
+{
+    $this->db->select('sales_order.*, pelanggan.nama_pelanggan');
 
-        $this->load->view('templates/header');
-        $this->load->view('templates/sidebar');
-        $this->load->view('templates/topbar');
-        $this->load->view('detail_order/tambah', $data);
-        $this->load->view('templates/footer');
-    }
+    $this->db->from('sales_order');
+
+    $this->db->join(
+        'pelanggan',
+        'pelanggan.id_pelanggan = sales_order.id_pelanggan',
+        'left'
+    );
+
+    $data['order'] = $this->db->get()->result();
+
+    $data['produk'] = $this->db->get('produk')->result();
+
+    $this->load->view('templates/header');
+    $this->load->view('templates/sidebar');
+    $this->load->view('templates/topbar');
+    $this->load->view('detail_order/tambah', $data);
+    $this->load->view('templates/footer');
+}
 
     // =========================
     // SIMPAN DETAIL ORDER

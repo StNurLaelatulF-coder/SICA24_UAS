@@ -14,10 +14,12 @@
 <thead>
 <tr>
     <th>No</th>
+    <th>ID Order</th>
     <th>Pelanggan</th>
     <th>Sales</th>
     <th>Tanggal</th>
     <th>Status</th>
+    <th>Stok Terpotong</th>
     <th>Aksi</th>
 </tr>
 </thead>
@@ -28,10 +30,12 @@
 
 <tr>
     <td><?= $no++; ?></td>
+    <td>#<?= $o->id_order; ?></td>
     <td><?= $o->nama_pelanggan; ?></td>
     <td><?= $o->nama_sales; ?></td>
     <td><?= $o->tanggal; ?></td>
     <td><?= ucfirst($o->status); ?></td>
+    <td><?= $o->stok_terpotong; ?></td>
 
     <td>
         <a href="<?= site_url('sales_order/edit/'.$o->id_order); ?>"

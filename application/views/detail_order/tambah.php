@@ -22,7 +22,7 @@
 <?php foreach($order as $o): ?>
 
 <option value="<?= $o->id_order; ?>">
-    Order #<?= $o->id_order; ?>
+    #<?= $o->id_order; ?> - <?= $o->nama_pelanggan; ?>
 </option>
 
 <?php endforeach; ?>
